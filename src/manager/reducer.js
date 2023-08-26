@@ -1,9 +1,11 @@
+import { BREAK, SESSION } from "../constants/keywords";
+
 export const reducer = (state, action) => {
   switch (action.type) {
-    case "BREAK":
+    case BREAK:
       return { ...state, break: action.payload };
 
-    case "SESSION":
+    case SESSION:
       return { ...state, session: action.payload };
 
     default:
