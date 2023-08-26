@@ -16,18 +16,22 @@ const Buttons = () => {
 
   return (
     <div className="btn-container">
-      <PiPlayPauseFill
-        id="start-stop"
-        size={isStartHovered ? 35 : 30}
-        onMouseEnter={startHoverHandler}
-        onMouseLeave={startHoverHandler}
-      />
-      <PiRepeatBold
-        id="reset"
-        size={isResetHovered ? 35 : 30}
-        onMouseEnter={resetHoverHandler}
-        onMouseLeave={resetHoverHandler}
-      />
+      <div>
+        <PiPlayPauseFill
+          id="start-stop"
+          size={isStartHovered ? 35 : 30}
+          onMouseEnter={startHoverHandler}
+          onMouseLeave={startHoverHandler}
+        />
+      </div>
+      <div>
+        <PiRepeatBold
+          id="reset"
+          size={isResetHovered ? 35 : 30}
+          onMouseEnter={resetHoverHandler}
+          onMouseLeave={resetHoverHandler}
+        />
+      </div>
     </div>
   );
 };

@@ -3,12 +3,20 @@
   justify-content: space-between;
   flex-direction: column;
 }
+.btn-container > div {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 40px;
+  height: 40px;
+  margin: 0 10px;
+}
 
 #start-stop,
 #reset {
   transition: all 0.5s ease;
   cursor: pointer;
-  margin: 5px;
+  /* margin: 5px; */
 }
 
 @media (min-width: 768px) {

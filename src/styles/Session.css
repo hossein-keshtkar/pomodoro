@@ -2,13 +2,22 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  
+
   align-items: center;
   margin-top: 15px;
 }
 
 #session-length {
   margin: 0 auto;
+}
+
+#session-increment,
+#session-decrement {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  width: 30px;
 }
 
 #session-arrow-up,
