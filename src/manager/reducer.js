@@ -1,4 +1,4 @@
-import { BREAK, SESSION } from "../constants/keywords";
+import { BREAK, RUN, SESSION } from "../constants/keywords";
 
 export const reducer = (state, action) => {
   switch (action.type) {
@@ -6,7 +6,14 @@ export const reducer = (state, action) => {
       return { ...state, break: action.payload };
 
     case SESSION:
-      return { ...state, session: action.payload };
+      return {
+        ...state,
+        session:
+          state.session === 0 ? state.session + state.break : action.payload,
+      };
+
+    case RUN:
+      return { ...state, isRunning: action.payload };
 
     default:
       return state;
