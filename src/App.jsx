@@ -1,7 +1,7 @@
 import React from "react";
 
-import "./App.css";
 // import audio from "./assets/beep.mp3";
+import "./App.css";
 import Break from "./components/Break";
 import Buttons from "./components/Buttons";
 import Session from "./components/Session";
@@ -14,13 +14,13 @@ function App() {
 
   React.useEffect(() => {
     console.log(state);
-  });
+  }, []);
 
   return (
     <div className="App">
       <h1 className="header">25 + 5 Clock</h1>
       <div className="columns">
-        <Break />
+        <Break state={state} dispatch={dispatch} />
         <Session />
       </div>
       <Timer />
