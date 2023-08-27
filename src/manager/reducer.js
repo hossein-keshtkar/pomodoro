@@ -6,10 +6,7 @@ export const reducer = (state, action) => {
       return { ...state, break: action.payload };
 
     case SESSION:
-      return {
-        ...state,
-        session: state.session <= 0 ? state.break : action.payload,
-      };
+      return { ...state, session: action.payload };
 
     case RUN:
       return { ...state, isRunning: action.payload };

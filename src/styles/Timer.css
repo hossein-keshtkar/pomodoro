@@ -7,6 +7,16 @@
   width: 200px;
 }
 
-.timer-container h1 {
-  margin: 10px auto;
+#time-left h1 {
+  /* font-size: 30px; */
+  /* margin: 10px auto; */
+  width: 65px;
+  height: 65px;
+}
+
+#time-left {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
 }

@@ -1,17 +1,34 @@
 import React, { useEffect, useState } from "react";
 
 import "../styles/Timer.css";
-import { SESSION } from "../constants/keywords";
+// import { SESSION } from "../constants/keywords";
 
 const Timer = ({ state, dispatch }) => {
-  const [seconds, setSeconds] = useState(0);
+  const [sessionTime, setSessionTime] = useState(state.session * 60);
+  const [breakTime, setBreakTime] = useState(0);
   const [intervalId, setIntervalId] = useState(null);
+
+  const sessionTimeHandler = () => {
+    if (sessionTime <= 0) {
+      setBreakTime(state.break * 60);
+      return;
+    }
+
+    sessionTime > 0 && setSessionTime((prev) => prev - 1);
+  };
+
+  const breakTimeHandler = () => {
+    if (breakTime <= 0) {
+      setSessionTime(state.session * 60);
+      return;
+    }
+
+    setBreakTime((prev) => prev - 1);
+  };
 
   const startInterval = () => {
     const id = setInterval(() => {
-      setSeconds((seconds) =>
-        seconds > 0 ? seconds - 1 : state.session === 0 ? 0 : 59
-      );
+      sessionTimeHandler();
     }, 1000);
 
     setIntervalId(id);
@@ -29,17 +46,29 @@ const Timer = ({ state, dispatch }) => {
   }, [state.isRunning]);
 
   useEffect(() => {
-    if (seconds === 59 && state.isRunning)
-      dispatch({ type: SESSION, payload: state.session - 1 });
-  }, [seconds]);
+    setSessionTime(state.session * 60);
+    setBreakTime(state.break * 60);
+  }, [state.session, state.break]);
+
+  //test
 
   return (
     <div className="timer-container" id="timer-label">
       <h2>Session</h2>
       <br />
-      <h1 id="time-left">
-        {state.session}:{seconds < 10 ? "0" + seconds : seconds}
-      </h1>
+      <div id="time-left">
+        <h1>{`${
+          sessionTime
+            ? parseInt(sessionTime / 60) < 10
+              ? "0" + parseInt(sessionTime / 60)
+              : parseInt(sessionTime / 60)
+            : parseInt(breakTime / 60) < 10
+            ? "0" + parseInt(breakTime / 60)
+            : parseInt(breakTime / 60)
+        }`}</h1>
+        <h1>:</h1>
+        <h1>{sessionTime >= 0 ? sessionTime % 60 : breakTime % 60}</h1>
+      </div>
     </div>
   );
 };
