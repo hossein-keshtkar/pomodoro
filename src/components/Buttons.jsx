@@ -3,6 +3,7 @@ import { PiPlayPauseFill, PiRepeatBold } from "react-icons/pi";
 
 import "../styles/Button.css";
 import { BREAK, RUN, SESSION } from "../constants/keywords";
+import { initState } from "../data/initState";
 
 const Buttons = ({ state, dispatch }) => {
   const [isResetHovered, setIsResetHovered] = useState(false);
@@ -20,9 +21,9 @@ const Buttons = ({ state, dispatch }) => {
   };
 
   const resetHandler = () => {
-    dispatch({ type: RUN, payload: false });
-    dispatch({ type: SESSION, payload: 25 });
-    dispatch({ type: BREAK, payload: 5 });
+    dispatch({ type: RUN, payload: initState.isRunning });
+    dispatch({ type: SESSION, payload: initState.session });
+    dispatch({ type: BREAK, payload: initState.break });
   };
 
   return (
