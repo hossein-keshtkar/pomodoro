@@ -21,10 +21,10 @@ function App() {
       <h1 className="header">25 + 5 Clock</h1>
       <div className="columns">
         <Break state={state} dispatch={dispatch} />
-        <Session />
+        <Session state={state} dispatch={dispatch} />
       </div>
-      <Timer />
-      <Buttons />
+      <Timer state={state} dispatch={dispatch} />
+      <Buttons state={state} dispatch={dispatch} />
       <audio
         src="./assets/beep.mp3"
         id="beep"

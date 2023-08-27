@@ -8,8 +8,7 @@ export const reducer = (state, action) => {
     case SESSION:
       return {
         ...state,
-        session:
-          state.session === 0 ? state.session + state.break : action.payload,
+        session: state.session <= 0 ? state.break : action.payload,
       };
 
     case RUN:

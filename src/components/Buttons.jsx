@@ -17,7 +17,6 @@ const Buttons = ({ state, dispatch }) => {
 
   const stopStartHandler = () => {
     dispatch({ type: RUN, payload: !state.isRunning });
-    console.log(state.isRunning);
   };
 
   const resetHandler = () => {

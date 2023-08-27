@@ -17,12 +17,12 @@ const Break = ({ state, dispatch }) => {
   };
 
   const incrementBreakTime = () => {
-    if (state.break >= 60) return;
+    if (state.break >= 60 || state.isRunning) return;
     dispatch({ type: BREAK, payload: state.break + 1 });
   };
 
   const decrementBreakTime = () => {
-    if (state.break <= 0) return;
+    if (state.break <= 1 || state.isRunning) return;
     dispatch({ type: BREAK, payload: state.break - 1 });
   };
 

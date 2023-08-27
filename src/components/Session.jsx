@@ -17,17 +17,17 @@ const Session = ({ state, dispatch }) => {
   };
 
   const sessionIncrementHandler = () => {
-    if (state.session >= 60) return;
+    if (state.session >= 60 || state.isRunning) return;
     dispatch({ type: SESSION, payload: state.session + 1 });
   };
   const sessionDecrementHandler = () => {
-    if (state.session <= 0) return;
+    if (state.session <= 1 || state.isRunning) return;
     dispatch({ type: SESSION, payload: state.session - 1 });
   };
 
   return (
     <div id="session-label">
-      <h2>Session Lenght</h2>
+      <h2>Session Length</h2>
       <div className="session-container">
         <div id="session-increment">
           <BiSolidUpArrow
