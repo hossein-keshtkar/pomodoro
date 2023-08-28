@@ -2,101 +2,59 @@ import React, { useEffect, useState } from "react";
 
 import "../styles/Timer.css";
 
+//** when reset btn pressed, timer also needs to be reset
+
 const Timer = ({ state }) => {
-  const [sessionInterval, setSessionInterval] = useState(null);
-  const [breakInterval, setBreakInterval] = useState(null);
-  const [isSessionTime, setIsSessionTime] = useState(true);
   const [sessionTime, setSessionTime] = useState(state.session * 60);
   const [breakTime, setBreakTime] = useState(state.break * 60);
-  const [displayMin, setDisplayMin] = useState(state.session);
+  const [isSessionTime, setIsSessionTime] = useState(true);
+  const [displayMin, setDisplayMin] = useState(0);
   const [displaySec, setDisplaySec] = useState(0);
+  const timeForWhat = isSessionTime ? "Session" : "Break";
 
-  const sessionTimeMin = parseInt(sessionTime / 60);
-  const breakTimeMin = parseInt(breakTime / 60);
-  const sessionTimeSec = sessionTime % 60;
-  const breakTimeSec = breakTime % 60;
+  const displayTime = (min, sec) => {
+    const minutes = min < 10 ? "0" + min : min;
+    const seconds = sec < 10 ? "0" + sec : sec;
 
-  const intervalTypeText = isSessionTime ? "Session" : "Break";
-
-  const formatTime = (time) => (time < 10 ? "0" : "") + time;
-
-  const countdown = (timeType) => {
-    if (timeType === "session") {
-      setSessionTime((prev) => (prev > 0 ? prev - 1 : prev));
-    } else if (timeType === "break") {
-      setBreakTime((prev) => (prev > 0 ? prev - 1 : prev));
-    }
+    return `${minutes} : ${seconds}`;
   };
 
-  const startInterval = (timeType) => {
-    const intervalId = setInterval(() => {
-      countdown(timeType);
-    }, 1000);
-
-    if (timeType === "session") {
-      setSessionInterval(intervalId);
-    } else if (timeType === "break") {
-      setBreakInterval(intervalId);
-    }
-  };
-
-  const sessionOrBreak = () => {
-    if (sessionTime === 0) {
-      setBreakTime(state.break * 60);
+  const whatIsTimeFor = () => {
+    if (sessionTime < 0) {
       setIsSessionTime(false);
-    } else if (breakTime === 0) {
       setSessionTime(state.session * 60);
+      return;
+    } else if (breakTime < 0) {
       setIsSessionTime(true);
+      setBreakTime(state.break * 60);
+      return;
     }
-  };
-
-  const stopSessionInterval = () => {
-    clearInterval(sessionInterval);
-    setSessionInterval(null);
-    console.log("session stoped");
-  };
-
-  const stopBreakInterval = () => {
-    clearInterval(breakInterval);
-    setBreakInterval(null);
-    console.log("break stoped");
-  };
-
-  const stopIntervals = () => {
-    stopSessionInterval();
-    stopBreakInterval();
   };
 
   useEffect(() => {
-    if (state.isRunning) {
-      if (isSessionTime) {
-        startInterval("session");
-      } else {
-        startInterval("break");
-      }
-    } else {
-      if (isSessionTime) {
-        stopSessionInterval();
-      } else {
-        stopBreakInterval();
-      }
-    }
+    const id = setInterval(() => {
+      isSessionTime
+        ? setSessionTime((prev) => prev - 1)
+        : setBreakTime((prev) => prev - 1);
+    }, 1000);
 
-    return () => {
-      if (isSessionTime) {
-        stopSessionInterval();
-      } else {
-        stopBreakInterval();
-      }
-    };
+    !state.isRunning && clearInterval(id);
+
+    return () => clearInterval(id);
   }, [state.isRunning, isSessionTime]);
 
   useEffect(() => {
-    setDisplayMin(isSessionTime ? sessionTimeMin : breakTimeMin);
-    setDisplaySec(isSessionTime ? sessionTimeSec : breakTimeSec);
+    const sessionOrBreakMin = isSessionTime
+      ? parseInt(sessionTime / 60)
+      : parseInt(breakTime / 60);
 
-    sessionOrBreak();
-  }, [sessionTime, breakTime]);
+    const sessionOrBreakSec = isSessionTime ? sessionTime % 60 : breakTime % 60;
+
+    setDisplayMin(sessionOrBreakMin);
+    setDisplaySec(sessionOrBreakSec);
+
+    whatIsTimeFor();
+  }, [sessionTime, breakTime, isSessionTime]);
 
   useEffect(() => {
     setSessionTime(state.session * 60);
@@ -105,12 +63,10 @@ const Timer = ({ state }) => {
 
   return (
     <div className="timer-container" id="timer-label">
-      <h2>{intervalTypeText}</h2>
+      <h2>{timeForWhat}</h2>
       <br />
       <div id="time-left">
-        <h1>{formatTime(displayMin)}</h1>
-        <h1>:</h1>
-        <h1>{formatTime(displaySec)}</h1>
+        <h1>{displayTime(displayMin, displaySec)}</h1>
       </div>
     </div>
   );
