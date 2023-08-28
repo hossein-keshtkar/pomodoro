@@ -11,29 +11,43 @@ const Timer = ({ state }) => {
   const [displayMin, setDisplayMin] = useState(state.session);
   const [displaySec, setDisplaySec] = useState(0);
 
-  const sessionCountDown = () => {
-    setSessionTime((prev) => prev > 0 && prev - 1);
+  const sessionTimeMin = parseInt(sessionTime / 60);
+  const breakTimeMin = parseInt(breakTime / 60);
+  const sessionTimeSec = sessionTime % 60;
+  const breakTimeSec = breakTime % 60;
+
+  const intervalTypeText = isSessionTime ? "Session" : "Break";
+
+  const formatTime = (time) => (time < 10 ? "0" : "") + time;
+
+  const countdown = (timeType) => {
+    if (timeType === "session") {
+      setSessionTime((prev) => (prev > 0 ? prev - 1 : prev));
+    } else if (timeType === "break") {
+      setBreakTime((prev) => (prev > 0 ? prev - 1 : prev));
+    }
   };
 
-  const breakCountDown = () => {
-    setBreakTime((prev) => prev > 0 && prev - 1);
+  const startInterval = (timeType) => {
+    const intervalId = setInterval(() => {
+      countdown(timeType);
+    }, 1000);
+
+    if (timeType === "session") {
+      setSessionInterval(intervalId);
+    } else if (timeType === "break") {
+      setBreakInterval(intervalId);
+    }
   };
 
   const sessionOrBreak = () => {
-    sessionTime === 0 && setIsSessionTime(false);
-    breakTime === 0 && setIsSessionTime(true);
-
-    // if (sessionTime === 0) {
-    //   setBreakTime(state.break * 60);
-    //   stopSessionInterval();
-    //   startBreakInterval();
-    // }
-
-    // if (breakTime === 0) {
-    //   setSessionTime(state.session * 60);
-    //   stopBreakInterval();
-    //   startSessionInterval();
-    // }
+    if (sessionTime === 0) {
+      setBreakTime(state.break * 60);
+      setIsSessionTime(false);
+    } else if (breakTime === 0) {
+      setSessionTime(state.session * 60);
+      setIsSessionTime(true);
+    }
   };
 
   const stopSessionInterval = () => {
@@ -53,50 +67,31 @@ const Timer = ({ state }) => {
     stopBreakInterval();
   };
 
-  const startSessionInterval = () => {
-    const intervalId = setInterval(() => {
-      sessionCountDown();
-    }, 1000);
-
-    setSessionInterval(intervalId);
-  };
-
-  const startBreakInterval = () => {
-    const intervalId = setInterval(() => {
-      breakCountDown();
-    }, 1000);
-
-    setBreakInterval(intervalId);
-  };
-
   useEffect(() => {
-    // state.isRunning
-    //   ? isSessionTime
-    //     ? startSessionInterval()
-    //     : startBreakInterval()
-    //   : stopIntervals();
-
     if (state.isRunning) {
       if (isSessionTime) {
-        breakInterval && stopBreakInterval();
-        startSessionInterval();
+        startInterval("session");
       } else {
-        sessionInterval && stopSessionInterval();
-        startBreakInterval();
+        startInterval("break");
       }
     } else {
-      stopIntervals();
+      if (isSessionTime) {
+        stopSessionInterval();
+      } else {
+        stopBreakInterval();
+      }
     }
 
-    return () => stopIntervals();
+    return () => {
+      if (isSessionTime) {
+        stopSessionInterval();
+      } else {
+        stopBreakInterval();
+      }
+    };
   }, [state.isRunning, isSessionTime]);
 
   useEffect(() => {
-    const sessionTimeMin = parseInt(sessionTime / 60);
-    const breakTimeMin = parseInt(breakTime / 60);
-    const sessionTimeSec = sessionTime % 60;
-    const breakTimeSec = breakTime % 60;
-
     setDisplayMin(isSessionTime ? sessionTimeMin : breakTimeMin);
     setDisplaySec(isSessionTime ? sessionTimeSec : breakTimeSec);
 
@@ -110,12 +105,12 @@ const Timer = ({ state }) => {
 
   return (
     <div className="timer-container" id="timer-label">
-      <h2>{isSessionTime ? "Session" : "Break"}</h2>
+      <h2>{intervalTypeText}</h2>
       <br />
       <div id="time-left">
-        <h1>{displayMin < 10 ? "0" + displayMin : displayMin}</h1>
+        <h1>{formatTime(displayMin)}</h1>
         <h1>:</h1>
-        <h1>{displaySec < 10 ? "0" + displaySec : displaySec}</h1>
+        <h1>{formatTime(displaySec)}</h1>
       </div>
     </div>
   );

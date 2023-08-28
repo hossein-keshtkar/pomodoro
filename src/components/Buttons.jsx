@@ -21,6 +21,7 @@ const Buttons = ({ state, dispatch }) => {
   };
 
   const resetHandler = () => {
+    // also need to reset the timer
     dispatch({ type: RUN, payload: initState.isRunning });
     dispatch({ type: SESSION, payload: initState.session });
     dispatch({ type: BREAK, payload: initState.break });
