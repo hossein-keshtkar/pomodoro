@@ -19,7 +19,7 @@ function App() {
         <Break state={state} dispatch={dispatch} />
         <Session state={state} dispatch={dispatch} />
       </div>
-      <Timer state={state} dispatch={dispatch} />
+      <Timer state={state} />
       <Buttons state={state} dispatch={dispatch} />
       <audio
         src="./assets/beep.mp3"
