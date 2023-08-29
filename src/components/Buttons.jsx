@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { PiPlayPauseFill, PiRepeatBold } from "react-icons/pi";
 
 import "../styles/Button.css";
 import { BREAK, RUN, SESSION } from "../constants/keywords";
 import { initState } from "../data/initState";
+import Context from "../manager/Context";
 
 const Buttons = ({ state, dispatch }) => {
   const [isResetHovered, setIsResetHovered] = useState(false);
   const [isStartHovered, setIsStartHovered] = useState(false);
+
+  const { setIsResetClicked } = useContext(Context);
 
   const startHoverHandler = () => {
     setIsStartHovered((prev) => !prev);
@@ -24,6 +27,7 @@ const Buttons = ({ state, dispatch }) => {
     dispatch({ type: RUN, payload: initState.isRunning });
     dispatch({ type: SESSION, payload: initState.session });
     dispatch({ type: BREAK, payload: initState.break });
+    setIsResetClicked((prev) => !prev);
   };
 
   return (
