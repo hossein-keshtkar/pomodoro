@@ -79,7 +79,7 @@ const Timer = ({ state }) => {
 
   return (
     <div className="timer-container" id="timer-label" style={style}>
-      <audio src={beep} ref={audioRef} onEnded={playBeep}></audio>
+      <audio src={beep} ref={audioRef} onEnded={playBeep} id="beep"></audio>
       <h2>{timeForWhat}</h2>
       <br />
       <div id="time-left">
