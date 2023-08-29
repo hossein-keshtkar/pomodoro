@@ -1,7 +1,7 @@
 {
   "name": "alarm-clock",
   "version": "0.1.0",
-  "homepage": "https://hossein-keshtkar.github.io/alarm-clock",
+  "homepage": "https://hossein-keshtkar.github.io/pomodoro",
   "author": "Hossein-Keshtkar",
   "private": true,
   "dependencies": {
@@ -15,12 +15,12 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -b master -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
