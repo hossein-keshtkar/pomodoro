@@ -14,10 +14,17 @@ const Timer = ({ state }) => {
   const [displayMin, setDisplayMin] = useState(0);
   const [displaySec, setDisplaySec] = useState(0);
   const timeForWhat = isSessionTime ? "Session" : "Break";
-  const style = { borderColor: displayMin < 1 && "red" };
+  const { isResetClicked } = useContext(Context);
   const audioRef = useRef();
 
-  const { isResetClicked } = useContext(Context);
+  const style = {
+    borderColor:
+      displayMin < 1 && state.isRunning
+        ? "red"
+        : state.isRunning
+        ? "blue"
+        : "#444",
+  };
 
   const playBeep = () => {
     if (beepPlayTimes > 0) {
