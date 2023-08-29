@@ -16,7 +16,7 @@ const Timer = ({ state }) => {
     const minutes = min < 10 ? "0" + min : min;
     const seconds = sec < 10 ? "0" + sec : sec;
 
-    return `${minutes} : ${seconds}`;
+    return { min: minutes, sec: seconds };
   };
 
   const whatIsTimeFor = () => {
@@ -62,11 +62,17 @@ const Timer = ({ state }) => {
   }, [state.session, state.break]);
 
   return (
-    <div className="timer-container" id="timer-label">
+    <div
+      className="timer-container"
+      id="timer-label"
+      style={{ borderColor: displayMin < 1 && "red" }}
+    >
       <h2>{timeForWhat}</h2>
       <br />
       <div id="time-left">
-        <h1>{displayTime(displayMin, displaySec)}</h1>
+        <h1>{displayTime(displayMin, displaySec).min}</h1>
+        <h1>:</h1>
+        <h1>{displayTime(displayMin, displaySec).sec}</h1>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 export const initState = {
-  session: 1,
-  break: 1,
+  session: 25,
+  break: 5,
   isRunning: false,
 };
