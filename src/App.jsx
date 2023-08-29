@@ -1,6 +1,5 @@
 import React from "react";
 
-// import audio from "./assets/beep.mp3";
 import "./App.css";
 import Break from "./components/Break";
 import Buttons from "./components/Buttons";
@@ -14,19 +13,19 @@ function App() {
 
   return (
     <div className="App">
-      <h1 className="header">{`Every ${state.session}, Take ${state.break}`}</h1>
+      <div className="header">
+        <h1>Every</h1>
+        <h1 className="header-session">{`${state.session}`}</h1>
+        <h1>, Take</h1>
+        <h1 className="header-break">{`${state.break}`}</h1>
+      </div>
+      {/* <h1 className="header">{`Every ${state.session}, Take ${state.break}`}</h1> */}
       <div className="columns">
         <Break state={state} dispatch={dispatch} />
         <Session state={state} dispatch={dispatch} />
       </div>
       <Timer state={state} />
       <Buttons state={state} dispatch={dispatch} />
-      <audio
-        src="./assets/beep.mp3"
-        id="beep"
-        type="audio/mp3"
-        autoPlay
-      ></audio>
     </div>
   );
 }
