@@ -75,7 +75,7 @@ const Timer = ({ state }) => {
   useEffect(() => {
     setSessionTime(state.session * 60);
     setBreakTime(state.break * 60);
-  }, [state]);
+  }, [state.session, state.break]);
 
   return (
     <div className="timer-container" id="timer-label" style={style}>
