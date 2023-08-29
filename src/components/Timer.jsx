@@ -1,9 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 
 import "../styles/Timer.css";
 import { displayTimeProperly } from "../funcs/displayTimeProperly";
 import { timeDestructurer } from "../funcs/timeDestructurer";
 import beep from "../assets/beep.mp3";
+import Context from "../manager/Context";
 
 const Timer = ({ state }) => {
   const [sessionTime, setSessionTime] = useState(state.session * 60);
@@ -15,6 +16,8 @@ const Timer = ({ state }) => {
   const timeForWhat = isSessionTime ? "Session" : "Break";
   const style = { borderColor: displayMin < 1 && "red" };
   const audioRef = useRef();
+
+  const { isResetClicked } = useContext(Context);
 
   const playBeep = () => {
     if (beepPlayTimes > 0) {
@@ -75,7 +78,7 @@ const Timer = ({ state }) => {
   useEffect(() => {
     setSessionTime(state.session * 60);
     setBreakTime(state.break * 60);
-  }, [state.session, state.break]);
+  }, [state.session, state.break, isResetClicked]);
 
   return (
     <div className="timer-container" id="timer-label" style={style}>
