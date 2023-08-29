@@ -11,8 +11,8 @@ const Timer = ({ state }) => {
   const [breakTime, setBreakTime] = useState(state.break * 60);
   const [isSessionTime, setIsSessionTime] = useState(true);
   const [beepPlayTimes, setBeepPlayTimes] = useState(3);
-  const [displayMin, setDisplayMin] = useState(undefined);
-  const [displaySec, setDisplaySec] = useState(undefined);
+  const [displayMin, setDisplayMin] = useState(0);
+  const [displaySec, setDisplaySec] = useState(0);
   const timeForWhat = isSessionTime ? "Session" : "Break";
   const audioRef = useRef();
 
