@@ -5,7 +5,6 @@ import { displayTimeProperly } from "../funcs/displayTimeProperly";
 import { timeDestructurer } from "../funcs/timeDestructurer";
 import beep from "../assets/beep.mp3";
 
-//** when reset btn pressed, timer also needs to be reset
 const Timer = ({ state }) => {
   const [sessionTime, setSessionTime] = useState(state.session * 60);
   const [breakTime, setBreakTime] = useState(state.break * 60);
@@ -14,6 +13,7 @@ const Timer = ({ state }) => {
   const [displayMin, setDisplayMin] = useState(0);
   const [displaySec, setDisplaySec] = useState(0);
   const timeForWhat = isSessionTime ? "Session" : "Break";
+  const style = { borderColor: displayMin < 1 && "red" };
   const audioRef = useRef();
 
   const playBeep = () => {
@@ -75,18 +75,10 @@ const Timer = ({ state }) => {
   useEffect(() => {
     setSessionTime(state.session * 60);
     setBreakTime(state.break * 60);
-  }, [state.session, state.break]);
-
-  useEffect(() => {
-    console.log(beepPlayTimes);
-  }, [beepPlayTimes]);
+  }, [state]);
 
   return (
-    <div
-      className="timer-container"
-      id="timer-label"
-      style={{ borderColor: displayMin < 1 && "red" }}
-    >
+    <div className="timer-container" id="timer-label" style={style}>
       <audio src={beep} ref={audioRef} onEnded={playBeep}></audio>
       <h2>{timeForWhat}</h2>
       <br />
