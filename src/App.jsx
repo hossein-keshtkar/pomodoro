@@ -16,7 +16,7 @@ function App() {
   return (
     <Context.Provider value={{ isResetClicked, setIsResetClicked }}>
       <div className="App">
-        <code>Pamodoro Timer</code>
+        <code>Pomodoro Timer</code>
         <h1 className="header">{`Every ${state.session}, Take ${state.break}`}</h1>
         <div className="columns">
           <Break state={state} dispatch={dispatch} />
